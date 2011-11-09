@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,7 +31,6 @@ class LogFilterForm(forms.Form):
 @login_required
 def index(request):
     c = {}
-    c.update(csrf(request))
 
     logs = []
 
@@ -64,5 +64,5 @@ def index(request):
 
     c['form'] = form
     c['logs'] = logs
-    c['user'] = request.user
-    return render_to_response('logger/index.html', c)
+    return render_to_response('logger/index.html', c,
+        context_instance=RequestContext(request))

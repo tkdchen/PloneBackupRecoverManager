@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from PloneBackupRecoverManagement.configuration.models import Configuration
@@ -13,15 +14,14 @@ from PloneBackupRecoverManagement.logger.models import Log, log_delete_log
 @login_required
 def index(request):
     c = {}
-    c.update(csrf(request))
 
     rc = RecoverController()
     c['backup_files'] = rc.getBackupFiles()
 
     logs = Log.objects.filter(category='recover').order_by('-when')[0:1]
 
-    c['user'] = request.user
-    return render_to_response('recover/index.html', c)
+    return render_to_response('recover/index.html', c,
+        context_instance=RequestContext(request))
 
 def do_recover(request):
     # TODO: check it

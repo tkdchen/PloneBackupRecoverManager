@@ -5,6 +5,7 @@ from django.core.context_processors import csrf
 from django.forms import ModelForm
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from PloneBackupRecoverManagement.configuration.models import Configuration
@@ -17,7 +18,6 @@ class ConfigurationForm(ModelForm):
 @login_required
 def index(request):
     c = {}
-    c.update(csrf(request))
 
     if request.method == 'POST':
         form = ConfigurationForm(request.POST)
@@ -58,6 +58,6 @@ def index(request):
         form = ConfigurationForm(instance=configuration)
 
     c['form'] = form
-    c['user'] = request.user
 
-    return render_to_response('configuration/index.html', c)
+    return render_to_response('configuration/index.html', c,
+        context_instance=RequestContext(request))
