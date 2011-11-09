@@ -1,0 +1,27 @@
+httpd.conf
+
+Alias /static/admin C:/Python27/Lib/site-packages/django/contrib/admin/media
+<Directory "C:/Python27/Lib/site-packages/django/contrib/admin/media">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+Alias /static D:/mycode/websites/PloneBackupRecoverManagement/static
+<Directory "D:/mycode/websites/PloneBackupRecoverManagement/static">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+LoadModule wsgi_module modules/mod_wsgi.so
+WSGIScriptAlias /django D:/mycode/websites/service_management/apache/django.wsgi
+WSGIScriptAlias / D:/mycode/websites/PloneBackupRecoverManagement/apache/django.wsgi
+
+<Directory "D:/mycode/websites/PloneBackupRecoverManagement/apache">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Directory "D:/mycode/websites/service_management/apache">
+    Order allow,deny
+    Allow from all
+</Directory>

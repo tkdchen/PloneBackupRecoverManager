@@ -1,0 +1,160 @@
+{% extends "base_view.html" %}
+{% load i18n %}
+{% block title_description %}{% trans "Recover the Plone site" %}{% endblock %}
+{% block custom_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/ui-lightness/jquery-ui.css"></link>
+<link rel="stylesheet" type="text/css" href="/static/css/ui-lightness/jquery.ui.all.css"></link>
+<style type="text/css">
+    #recover_form {
+        margin-top: 12px;
+    }
+    #backup_list {
+        overflow: auto;
+        height: 600px;
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+    }
+    #log_view {
+        overflow: auto;
+        height: 600px;
+        margin-top: 6px;
+        margin-left: 3px;
+        width: 470px;
+    }
+</style>
+{% endblock %}
+{% block custom_script %}
+<script type="text/javascript" src="/static/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.dialog.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.draggable.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.position.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ui.resizable.js"></script>
+<script type="text/javascript">
+function disable_buttons()
+{
+    document.getElementById('do_recover').disabled = true;
+    document.getElementById('do_delete').disabled = true;
+}
+
+function start_recover()
+{
+    disable_buttons();
+    document.getElementById('do_command').value = 'recover';
+    document.forms[0].submit();
+}
+
+function do_delete_clicked()
+{
+    $( "#dialog-confirm" ).dialog({
+			resizable: false,
+			height: 320,
+            width: 400,
+			modal: true,
+			buttons: {
+                "{% trans "Delete them" %}": function() {
+					$(this).dialog( "close" );
+                    disable_buttons();
+                    document.getElementById('do_command').value = 'delete';
+                    document.forms[0].submit();
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+    
+    if (confirm(confirm_msg))
+    {
+    }
+}
+
+var backup_file_delete_warning_msg = '';
+
+function backup_file_selected()
+{
+    // Get the selected backup file name
+    var nodelist = document.forms[0].recover_to;
+    var recover_to_filename = null;
+    for (var i = 0; i < nodelist.length; i++)
+    {
+        var radio = nodelist[i];
+        if (radio.checked)
+        {
+            recover_to_filename = radio.value;
+            break;
+        }
+    }
+
+    // Determine whether the backup file can be deleted.
+    $.ajax({
+        url: '/recover/can_delete/' + recover_to_filename + '/',
+        dataType: 'xml',
+        success: function (data, status, obj) {
+            document.getElementById('do_recover').disabled = false;
+            var node_value = data.getElementsByTagName('can_delete')[0].textContent;
+            document.getElementById('do_delete').disabled = node_value != '1';
+            var nodelist = data.getElementsByTagName('warning');
+            if (nodelist.length > 0)
+            {
+                var textNode = document.createTextNode(nodelist[0].textContent);
+                var node = document.getElementById('deleted_file_list');
+                if (node.firstChild != null)
+                    node.removeChild(node.firstChild);
+                document.getElementById('deleted_file_list').appendChild(textNode);
+            }
+        },
+    });
+}
+    </script>
+{% endblock %}
+{% block content %}
+<div id="recover_form">
+    <div id="dialog-confirm" title="{% trans "Delete Confirm" %}" style="display:none">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{% trans "Are you sure to delete the backup files?" %}<br />{% trans "The deleted files can not be recovered." %}<br /><span id="deleted_file_list"></span></p>
+    </div>
+    <form action="/recover/do/" method="post">{% csrf_token %}
+        <input type="hidden" id="do_command" name="do_command" value="" />
+        <table align="center" width="800" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <colgroup>
+                    <col width="60%" />
+                </colgroup>
+            </thead>
+            <tbody>
+                <tr>
+                    <td valign="top">
+                        <div id="control">
+                            <input type="button" id="do_recover" name="do_recover"
+                            value="{% trans "Start Recovery" %}" disabled
+                            onclick="start_recover()"/>
+                            <input type="button" id="do_delete" name="do_delete"
+                                value="{% trans "Delete selected file" %}" disabled
+                                onclick="do_delete_clicked()"/>
+                        </div>
+                        <div id="log_view">
+                            {% if log %}
+                            <p>{{ log.detail|linebreaks }}</p>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div id="right">
+                  <p>{% trans "fsz: Full backup. deltafsz: incremental backup." %}</p>
+                            <ul id="backup_list">
+                            {% for backup_file in backup_files %}
+                                <li><input type="radio" id="recover_to_{{ backup_file }}" name="recover_to" value="{{ backup_file }}" onclick="backup_file_selected()">
+                                    <label for="recover_to_{{ backup_file }}">{% if last_recover_to in backup_file %}<strong>{{ backup_file }}</strong>{% else %}{{ backup_file }}{% endif %}</label>
+                    </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+{% endblock %}

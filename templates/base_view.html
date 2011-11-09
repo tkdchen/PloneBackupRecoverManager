@@ -1,0 +1,45 @@
+{% load i18n %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>{% trans "Plone site backup and recover management" %} - {% block title_description %}Description{% endblock %}</title>
+        <style type="text/css">
+            #navigator {
+                list-style-type: none;
+                margin: 0px;
+                padding: 0px;
+            }
+            #navigator li{
+                float: none;
+                display: inline;
+            }
+            #footer {
+                text-align: center;
+                padding-top: 6px;
+            }
+        </style>
+        {% block custom_css %}{% endblock %}
+        <script type="text/javascript" src="/static/js/jquery.js"></script>
+        {% block custom_script %}{% endblock %}
+    </head>
+    <body>
+        <div id="navigator">
+            <ul id="navigator">
+                <li><a href="/backup/">{% trans "Backup" %}</a></li>
+                <li><a href="/recover/">{% trans "Recover" %}</a></li>
+                <li><a href="/configure/">{% trans "Configure" %}</a></li>
+                <li><a href="/log/">{% trans "Log" %}</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/logout/">{% trans "Logout" %}</a> - {% blocktrans with firstname=user.first_name lastname=user.last_name%}Hi, {{ lastname }}{{ firstname }}{% endblocktrans %}</li>
+                {% else %}
+                <li><a href="/login/">{% trans "Login" %}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="content">{% block content %}Content{% endblock %}</div>
+        <div id="footer">
+            <p>{% trans "Produced by Computer Support Department of Dongcheng Statistics Bureau" %}</p>
+        </div>
+    </body>
+</html>

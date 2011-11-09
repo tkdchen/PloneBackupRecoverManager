@@ -1,0 +1,245 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the django package.
+# Chenxiong Qi <qcx@bjstats.gov.cn>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-08 18:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Chenxiong Qi <qcx@bjstats.gov.cn>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: configuration/models.py:7
+msgid "Plone installation Path"
+msgstr "Plone的安装目录"
+
+#: configuration/models.py:10
+msgid ""
+"Where the Plone is installed. It should an absolute path. The path 'D:"
+"\\Plone3' is recommended."
+msgstr ""
+"Plone站点被安装在哪个目录中。它应该是一个绝对路径。推荐的安装目录是D:\\Plone3"
+
+#: configuration/models.py:12
+msgid "Repository"
+msgstr "备份文件存储路径"
+
+#: configuration/models.py:15
+msgid "The directory that holds backup files."
+msgstr " 所有备份都存储在这个目录中。"
+
+#: configuration/models.py:17
+msgid "Backup script"
+msgstr "备份脚本"
+
+#: configuration/models.py:18
+msgid "The backup script is optional."
+msgstr "备份脚本是可选的。"
+
+#: configuration/models.py:20
+msgid "Recover script"
+msgstr "恢复脚本"
+
+#: configuration/models.py:21
+msgid ""
+"You must provide a recover script. You should ensure that the script has "
+"proper permission to finish the recover tasks."
+msgstr ""
+"你必须提供恢复脚本。并且应该确保脚本有合适的权限以完成恢复过程中的各项任务。"
+
+#: configuration/views.py:37
+msgid "Configuration has been saved."
+msgstr "配置已经被保存。"
+
+#: configuration/views.py:42
+msgid "Saving configuration failed.\n"
+msgstr "保存配置失败。\n"
+
+#: logger/models.py:7
+msgid "Who did the behavior that is associated with this log."
+msgstr "用户名，此人执行了与此条日志关联的行为。"
+
+#: logger/models.py:10
+msgid "Whether the behavior with which this log is associated succeeded."
+msgstr "此条日志关联的行为是否成功。"
+
+#: logger/models.py:11
+msgid ""
+"Holds the every thing that is printed into the stdout during the backup or "
+"recover process."
+msgstr "存储备份和恢复过程中产生的任何输出信息。"
+
+#: logger/views.py:14 templates/logger/index.html:62
+msgid "Logged when"
+msgstr "何时记录的"
+
+#: logger/views.py:17
+msgid "Log category"
+msgstr "日志类别"
+
+#: logger/views.py:19 logger/views.py:25
+msgid "Not select"
+msgstr "不做选择"
+
+#: logger/views.py:20 templates/base_view.html:29
+msgid "Backup"
+msgstr "备份"
+
+#: logger/views.py:21 templates/base_view.html:30
+msgid "Recover"
+msgstr "恢复"
+
+#: logger/views.py:23 templates/logger/index.html:65
+msgid "Succeeded"
+msgstr "是成功的吗"
+
+#: logger/views.py:26
+msgid "Yes"
+msgstr "是"
+
+#: logger/views.py:27
+msgid "No"
+msgstr "否"
+
+#: recover/RecoverController.py:114
+#, python-format
+msgid "The following backup files was deleted.%s"
+msgstr "下面的备份文件已经被删除：%s"
+
+#: recover/RecoverController.py:120
+msgid "The backup file and the older ones cannot be deleted."
+msgstr "无法删除这个备份文件及更老的备份文件。"
+
+#: recover/RecoverController.py:154
+#, python-format
+msgid "Plone site has been recovered to %s"
+msgstr "Plone站点已经被恢复到 %s"
+
+#: recover/views.py:64
+msgid ""
+"Warning: After deleting files, the data contained in the file between the "
+"deleted file and the most close full backup file will be lost."
+msgstr ""
+"警告：删除选择的以及更老的备份文件后，包含在该备份文件和离它最近的完整备份之"
+"间的数据都将无法回复。"
+
+#: templates/base_view.html:6
+msgid "Plone site backup and recover management"
+msgstr "Plone站点备份和恢复管理系统"
+
+#: templates/base_view.html:31
+msgid "Configure"
+msgstr "配置"
+
+#: templates/base_view.html:32
+msgid "Log"
+msgstr "日志"
+
+#: templates/base_view.html:34
+msgid "Logout"
+msgstr "注销"
+
+#: templates/base_view.html:34
+#, python-format
+msgid "Hi, %(lastname)s%(firstname)s"
+msgstr "你好，%(lastname)s%(firstname)s"
+
+#: templates/base_view.html:36 templates/auth/login.html:10
+msgid "Login"
+msgstr "登录"
+
+#: templates/base_view.html:42
+msgid "Produced by Computer Support Department of Dongcheng Statistics Bureau"
+msgstr "制作单位：东城区统计局计算机管理科"
+
+#: templates/backup/index.html:3
+msgid "Backup the Plone site"
+msgstr "备份Plone站点"
+
+#: templates/backup/index.html:12
+msgid "You should check the backup scheduled task on the server."
+msgstr ""
+"备份任务已经在服务上设置为定期自动执行。请检查服务器的计划任务，以查看备份的"
+"详细信息。"
+
+#: templates/configuration/index.html:3
+msgid "Configuration"
+msgstr "配置"
+
+#: templates/configuration/index.html:18
+msgid "Save"
+msgstr "保存"
+
+#: templates/logger/index.html:45
+msgid "Filter"
+msgstr "过滤"
+
+#: templates/logger/index.html:63
+msgid "Logged by who"
+msgstr "由谁产生的"
+
+#: templates/logger/index.html:64
+msgid "Category"
+msgstr "类别"
+
+#: templates/logger/index.html:80
+msgid "Log Detail"
+msgstr "日志详细内容"
+
+#: templates/logger/index.html:83
+msgid "View Detail"
+msgstr "查看详细内容"
+
+#: templates/logger/index.html:105
+msgid "No log found."
+msgstr "未找到日志"
+
+#: templates/recover/index.html:3
+msgid "Recover the Plone site"
+msgstr "恢复Plone站点"
+
+#: templates/recover/index.html:57
+msgid "Delete them"
+msgstr "删除"
+
+#: templates/recover/index.html:115
+msgid "Delete Confirm"
+msgstr "的确要删除它们吗？ :("
+
+#: templates/recover/index.html:116
+msgid "Are you sure to delete the backup files?"
+msgstr "确定要删除备份文件吗？"
+
+#: templates/recover/index.html:116
+msgid "The deleted files can not be recovered."
+msgstr "删除之后将无法恢复。"
+
+#: templates/recover/index.html:131
+msgid "Start Recovery"
+msgstr "开始恢复"
+
+#: templates/recover/index.html:134
+msgid "Delete selected file"
+msgstr "删除选择的文件"
+
+#: templates/recover/index.html:145
+msgid "fsz: Full backup. deltafsz: incremental backup."
+msgstr " 扩展名含义：fsz表示完整备份；deltafsz表示每日的增量备份（即小备份）。"
+
+#~ msgid ""
+#~ "Failed to delete backup file %(filename)s\n"
+#~ "The error message from OS:\n"
+#~ "%(err_msg)s"
+#~ msgstr ""
+#~ "删除备份文件%(filename)s失败\n"
+#~ "系统错误消息：\n"
+#~ "%(err_msg)s"

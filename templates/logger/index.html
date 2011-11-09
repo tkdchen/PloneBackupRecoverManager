@@ -1,0 +1,111 @@
+{% extends "base_view.html" %}
+{% load i18n %}
+{% block title_description %}View Log{% endblock %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/ui-lightness/jquery-ui.css"></link>
+    <link rel="stylesheet" type="text/css" href="/static/css/ui-lightness/jquery.ui.all.css"></link>
+    <link rel="stylesheet" type="text/css" href="/static/css/ui-lightness/jquery.ui.datepicker.css"></link>
+    <style type="text/css">
+        #query_conditions {
+            text-align: center;
+        }
+        #log_list {
+            text-align: center;
+        }
+        #filter_condition {
+            list-style-type: none;
+            padding: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+        #filter_condition li {
+            display: inline;
+        }
+    </style>
+{% endblock %}
+{% block custom_script %}
+    <script type="text/javascript" src="/static/js/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.datepicker.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.dialog.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.mouse.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.draggable.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.position.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.resizable.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.bgiframe.js"></script>
+    <script type="text/javascript" src="/static/js/i18n/jquery.ui.datepicker-zh-CN.js"></script>
+{% endblock %}
+{% block content %}
+<div id="query_conditions">
+    <form method="post">{% csrf_token %}
+        <ul id="filter_condition">
+            {{ form.as_ul }}
+            <li><input type="submit" name="filter" value="{% trans "Filter" %}" /></li>
+        </ul>
+        <script type="text/javascript">
+            $(function() {
+                    $.datepicker.setDefaults(
+                        $.datepicker.regional[""]);
+                    $("#id_when").datepicker(
+                        $.datepicker.regional["zh-CN"] );
+                    $("#id_when").datepicker("option", "dateFormat", "yy-mm-dd");
+                    $("#id_when").datepicker();
+            });
+        </script>
+    </form>
+</div>
+<div id="log_list">
+    <table align="center" cellspacing="0" cellpadding="3" border="0" width="700">
+        <tr>
+            <th>{% trans "Logged when" %}</th>
+            <th>{% trans "Logged by who" %}</th>
+            <th>{% trans "Category" %}</th>
+            <th>{% trans "Succeeded" %}</th>
+            <th>&nbsp;</th>
+        </tr>
+        {% if logs %}
+        <script type="text/javascript">
+            // For dialog
+            $.fx.speeds._default = 300;
+        </script>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.when }}</td>
+            <td>{{ log.username }}</td>
+            <td>{{ log.category }}</td>
+            <td>{{ log.succeeded}}</td>
+            <td>
+                <div id="dialog_log_{{ log.id }}" title="{% trans "Log Detail" %}">
+                    <p>{{ log.detail|linebreaks }}</p>
+                </div>
+                <button id="view_detail_log_{{ log.id }}">{% trans "View Detail" %}</button>
+                <script type="text/javascript">
+                    $(function() {
+                            $( "#dialog_log_{{ log.id }}" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 600,
+                            });
+
+                            $("#view_detail_log_{{ log.id }}").click(function() {
+                                $("#dialog_log_{{ log.id }}").dialog("open");
+                                return false;
+                            });
+                        });
+                </script>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4">
+                <p>{% trans "No log found." %}</p>
+            </td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}

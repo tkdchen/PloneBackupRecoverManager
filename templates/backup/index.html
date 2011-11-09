@@ -1,0 +1,13 @@
+{% extends "base_view.html" %}
+{% load i18n %}
+{% block title_description %}{% trans "Backup the Plone site" %}{% endblock %}
+{% block custom_css %}
+<style type="text/css">
+    #content p {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<p>{% trans "You should check the backup scheduled task on the server." %}</p>
+{% endblock %}
